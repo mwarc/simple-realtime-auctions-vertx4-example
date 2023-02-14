@@ -34,6 +34,8 @@ dependencies {
   implementation("io.vertx:vertx-sockjs-service-proxy")
   implementation("io.vertx:vertx-lang-kotlin")
   implementation(kotlin("stdlib-jdk8"))
+  implementation("com.fasterxml.jackson.core:jackson-databind:2.14.2")
+
   testImplementation("io.vertx:vertx-junit5")
   testImplementation("org.junit.jupiter:junit-jupiter:$junitJupiterVersion")
 }
