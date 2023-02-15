@@ -7,10 +7,14 @@ function init() {
 
 function loadCurrentPrice() {
     fetch("http://localhost:8080/api/auctions/" + auction_id)
-        .then(response => response.json())
         .then(response => {
-            document.getElementById('current_price').innerHTML = 'EUR ' + response.price.toFixed(2);
+            if (response.ok) {
+                return response.json()
+            }
+            throw new Error('Something went wrong');
+
         })
+        .then(response => document.getElementById('current_price').innerHTML = 'EUR ' + response.price.toFixed(2))
         .catch(() => document.getElementById('current_price').innerHTML = 'EUR 0.00');
 }
 
@@ -34,8 +38,12 @@ function bid() {
         },
         body: JSON.stringify({price: newPrice})
     })
-        .then(() => {
-            document.getElementById('error_message').innerHTML = '';
+        .then(response => {
+            if (response.ok) {
+                document.getElementById('error_message').innerHTML = '';
+            } else {
+                document.getElementById('error_message').innerHTML = 'Invalid price!'
+            }
         })
-        .catch(() => document.getElementById('error_message').innerHTML = 'Invalid price!')
+        .catch(() => document.getElementById('error_message').innerHTML = 'Something went wrong')
 }
